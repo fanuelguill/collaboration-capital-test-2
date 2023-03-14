@@ -3,27 +3,33 @@ import { ActivatedRoute, Router } from '@angular/router';
 import campaignJson from '../../../utils/payload-rmp.json';
 import brandJson from '../../../utils/brands.json';
 import { UntypedFormGroup, FormBuilder, Validators } from "@angular/forms";
-import { MAT_DATE_FORMATS } from '@angular/material/core';
+import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 
-export const MY_DATE_FORMATS = {
+export const MY_FORMATS = {
   parse: {
-    dateInput: 'DD/MM/YYYY',
+    dateInput: 'LL',
   },
   display: {
-    dateInput: 'DD/MM/YYYY',
-    monthYearLabel: 'MMMM YYYY',
+    dateInput: 'LL',
+    monthYearLabel: 'MMM YYYY',
     dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY'
+    monthYearA11yLabel: 'MMMM YYYY',
   },
 };
-
 @Component({
   selector: 'app-update-campaign',
   templateUrl: './update-campaign.component.html',
   styleUrls: ['./update-campaign.component.scss'],
   providers: [
-    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }
-  ]
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ],
 })
 export class UpdateCampaignComponent implements OnInit {
 
@@ -39,10 +45,8 @@ export class UpdateCampaignComponent implements OnInit {
   }
 
   ngOnInit() {
-    // console.log("this.route?.snapshot?.paramMap?.get('id')", this.route?.snapshot?.paramMap?.get("id"));
     const id = this.route?.snapshot?.paramMap?.get("id");
     this.campaign = campaignJson.requests?.find(campaign => campaign?.requestId === Number(id));
-    console.log("this.campaign", this.campaign);
   }
 
 

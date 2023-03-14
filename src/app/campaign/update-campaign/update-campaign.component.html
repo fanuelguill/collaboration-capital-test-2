@@ -1,15 +1,12 @@
 <div class="container my-5">
-    <form [formGroup]="updatingForm">
-    </form>
-    
     <div class="row form-group">
-        <div class="col-md-4 h6" style="margin-top: 8px;">
+        <div class="col-md-4 h6 my-3">
             Brand *
         </div>
         <div class="col-md-8">
             <select class="form-select" aria-label="Example select with button addon">
                 <option *ngFor="let brand of brands" value="{{brand?.brandId}}" [selected]="brand.brandId == campaign?.brand?.brandId">{{ brand?.name }}</option>
-              </select>
+            </select>
         </div>
     </div>
     <div class="my-5">
@@ -20,7 +17,6 @@
             <input type="text" class="form-control" value="{{campaign?.campaignName}}" placeholder="Campaign name" aria-label="Campaign name" aria-describedby="basic-addon2">
         </div>
     </div>
-
     <div>
         <div class="col-md-12 h6">
             Media *
@@ -32,18 +28,18 @@
             </div>
         </div>
     </div>
-    <div class="my-5">
+    <div class="my-4">
         <div class="col-md-12 h6">
             Deadline of decision
         </div>
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-            <mat-form-field class="example-full-width mb-3" appearance="outline">
-              <mat-label>Deadline of decision</mat-label>
-              <input matInput readonly [matDatepicker]="picker" (dateInput)="$event.value.format('YYYY-MM-D')" [(ngModel)]="campaign.decisionDeadline" required>
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
+            <mat-form-field>
+                <mat-label>Deadline of decision</mat-label>
+                <input matInput [matDatepicker]="dp" [(ngModel)]="campaign.decisionDeadline" required>
+                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                <mat-datepicker #dp></mat-datepicker>
             </mat-form-field>
-          </div>
+        </div>
     </div>
     <div>
         <button type="button" class="btn btn-primary">Update</button>
