@@ -1,0 +1,73 @@
+<div class="container my-5">
+    <form [formGroup]="filterForm" class="d-md-flex d-sm-block justify-content-between"> 
+        <h1 class="h5 align-self-center">FILTERS</h1>
+        <div class="row d-flex col-md-10">
+        <input type="search" formControlName="searchValue" (ngModelChange)="filterSearch($event)" class="col-3 bg-light margin-filter"> 
+        <select class="btn border-dark bg-light col-3" formControlName="brandId" (change)="filterByBrand($any($event.target).value)">
+            <option value=""> -Brand- </option>
+            <option *ngFor="let brand of brands" value="{{brand?.brandId}}"> {{ brand.name }} </option>
+        </select> 
+        </div>
+        <!-- <input type="submit" value="Search" class="btn btn-outline-dark col-3 col-sm-3">  -->
+        <div class="btn-group align-self-center"> 
+        <button type="button" class="btn btn-dark h5 align-self-center">Filter</button>
+        </div>
+    </form>
+    <div class="d-md-flex d-none justify-content-md-between justify-content-sm-center align-content-center border-2 my-2 text-dark p-3 rounded-3">
+        <div class="col-1 text-sm-center text-md-start align-self-center">
+            <h1 class="h6 fw-bold">Status</h1>
+        </div>
+        <div class="col-5 align-self-center">
+            <h1 class="h6 fw-bold">Name</h1>
+        </div>
+        <div class="col-2 align-self-center">
+            <h1 class="h6 fw-bold">Type</h1>
+        </div>
+        <div class="col-2 align-self-center">
+            <h1 class="h6 fw-bold">Brand</h1>
+        </div>
+        <div class="col-2 align-self-center">
+            <h1 class="h6 fw-bold">Submission</h1>
+        </div>
+    </div>
+    <div *ngFor="let campaign of campaigns" (click)="selectCampaign(campaign?.requestId)" class="d-md-flex d-sm-block justify-content-md-between justify-content-sm-center text-center border-bottom border-2 my-2 p-2 rounded-3 bg-blue div-campaign">
+        <div class="col-md-1 text-sm-center text-md-start align-self-center my-2 div-sub-campaign">
+        <div *ngIf="campaign?.requestStatus?.name === 'VALIDATED'">
+            <p class="status-icon"><i class="fa fa-check-circle fa-2x status-validated" aria-hidden="true"> </i></p>
+            <h1 class="h6 validated-margin"> {{ campaign?.requestStatus?.value }} </h1>
+        </div>
+        <div *ngIf="campaign?.requestStatus?.name === 'REJECTED'">
+            <p class="status-icon"><i class="fa fa-close fa-2x status-rejected" aria-hidden="true"> </i></p>
+            <h1 class="h6 rejected-margin"> {{ campaign?.requestStatus?.value }} </h1>
+        </div>
+        <div *ngIf="campaign?.requestStatus?.name === 'DRAFT'">
+            <p class="status-icon"><i class="fa fa-hourglass fa-2x" aria-hidden="true"> </i></p>
+            <h1 class="h6 draft-margin"> {{ campaign?.requestStatus?.value }} </h1>
+        </div>
+        <div *ngIf="campaign?.requestStatus?.name !== 'REJECTED' && campaign?.requestStatus?.name !== 'VALIDATED' && campaign?.requestStatus?.name !== 'DRAFT'">
+            <p class="status-icon"><i class="fa fa-hourglass fa-2x" aria-hidden="true"> </i></p>
+            <h1 class="h6"> {{ campaign?.requestStatus?.value }} </h1>
+        </div>
+        </div>
+        <div class="col-md-5 text-sm-center text-md-start align-self-center my-2 campaign-name">
+        <h1 class="h6">{{ campaign?.campaignName }}</h1>
+        </div>
+        <div class="col-md-2 text-sm-center text-md-start align-self-center my-2">
+        <span *ngIf="campaign?.advice" class="badge badge-danger"> Advice </span> 
+        <span *ngIf="!campaign?.advice" class="badge badge-secondary"> Request </span> 
+        </div>
+        <div class="col-md-2 text-sm-center text-md-start align-self-center my-2"> 
+        <h1 class="h6"> {{ campaign?.brand?.name }} </h1>
+        </div>
+        <div class="row col-md-6 text-sm-center text-md-start align-self-center my-2">
+        <div class="col-md-3">
+            <h1 *ngIf="campaign?.submittedDate" class="h6"> {{ campaign?.submittedDate | date }}  </h1>
+            <h1 *ngIf="!campaign?.submittedDate" class="h6"> -  </h1>
+        </div>
+        <div class="col-md-3">
+            <h1 class="h6"><i class="fa fa-chevron-right fa-2x" aria-hidden="true"> </i></h1>
+        </div>
+        </div>
+    </div>
+</div>
+  
